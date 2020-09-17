@@ -1,12 +1,30 @@
 {% load static %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+<h1>Ku-Polls</h1>
+<br>
+
+<h2>List of polls</h2>
+
 {% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
+    {% if messages %}
+{% endif %}
+
+{% for question in latest_question_list %}
+    <li>{{question.question_text}}
+    {% if question.can_vote %}
+        <a href="{% url 'polls:results' question.id %}">{{ "results" }}</a>
+        <a href="{% url 'polls:detail' question.id %}">{{ "vote" }}</a>
+    {% else %}
+        <a href="{% url 'polls:results' question.id %}">{{ "results" }}</a>
+    {% if messages %}
+    {% for msg in messages %}
+        <p class="{{msg.tags}}">{{ msg }}</p>
+    <br>
+        {% endfor %}
+    {% endif %}
+{% endif %}
+
+{% endfor %}
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
