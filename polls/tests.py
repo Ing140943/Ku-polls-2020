@@ -33,15 +33,40 @@ class QuestionModelTests(TestCase):
         time = timezone.now() + datetime.timedelta(days=30)
         future_question = Question(pub_date=time)
         self.assertIs(future_question.was_published_recently(), False)
-def create_question(question_text, days):
-    """
-    Create a question with the given `question_text` and published the
-    given number of `days` offset to now (negative for questions published
-    in the past, positive for questions that have yet to be published).
-    """
-    time = timezone.now() + datetime.timedelta(days=days)
-    return Question.objects.create(question_text=question_text, pub_date=time)
 
+    def test_is_published_with_avaliable_polls(self):
+        """
+        is_published() return True for questions that are currently on.
+        """
+        time = timezone.now() - datetime.timedelta(days = 7)
+        question = Question(pub_date = time)
+        self.assertIs(question.is_published(), True)
+
+    def test_is_published_with_unavaliable_polls(self):
+        """
+        is_publishd() return False for the questions that are't currentlr on.
+        """
+
+        time = timezone.now() + datetime.timedelta(days = 7)
+        question = Question(pub_date = time)
+        self.assertIs(question.is_published(), False)
+    def test_can_vote_questions_before_published_date(self):
+        """
+        The user can vote only the polls that are allowed.
+        """
+        time = timezone.now() - datetime.timedelta(days = 5)
+        date = timezone.now() + datetime.timedelta(days = 5)
+        question = Question(pub_date = time, end_date = date )
+        self.assertIs(question.can_vote(), True)
+
+    def test_can_vote_questions_after_published_date(self):
+        """
+        The user can vote only the polls that are allowed.
+        """
+        time = timezone.now() + datetime.timedelta(days = 5)
+        date = timezone.now() - datetime.timedelta(days = 5)
+        question = Question(pub_date = time, end_date = date )
+        self.assertIs(question.can_vote(), False)
 
 class QuestionIndexViewTests(TestCase):
     def test_no_questions(self):
@@ -99,6 +124,7 @@ class QuestionIndexViewTests(TestCase):
             response.context['latest_question_list'],
             ['<Question: Past question 2.>', '<Question: Past question 1.>']
         )
+
 class QuestionDetailViewTests(TestCase):
     def test_future_question(self):
         """
@@ -119,3 +145,12 @@ class QuestionDetailViewTests(TestCase):
         url = reverse('polls:detail', args=(past_question.id,))
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)
+
+def create_question(question_text, days):
+    """
+    Create a question with the given `question_text` and published the
+    given number of `days` offset to now (negative for questions published
+    in the past, positive for questions that have yet to be published).
+    """
+    time = timezone.now() + datetime.timedelta(days=days)
+    return Question.objects.create(question_text=question_text, pub_date=time, end_date = time)
