@@ -49,7 +49,7 @@ def vote(request, question_id):
         })
     else:
         if not (question.can_vote()):
-            return HttpResponseRedirect(reverse('polls:index'),messages.warning(request,"This polls are not allowed."))
+            return HttpResponseRedirect(reverse('polls:index'),messages.warning(request,"The poll that you selected is not allowed."))
     
         selected_choice.votes += 1
         selected_choice.save()
