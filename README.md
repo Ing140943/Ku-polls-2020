@@ -10,3 +10,5 @@ Web application for conducting online polls and surveys.
 
 [Iteration1-plan](https://github.com/Ing140943/Ku-polls/wiki/Iteration-1-Plan)
 
+[Iteration/-plan](https://github.com/Ing140943/Ku-polls/wiki/Iteration-2-Plan)
+
