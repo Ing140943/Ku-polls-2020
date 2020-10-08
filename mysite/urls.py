@@ -1,3 +1,11 @@
+"""
+Setting url to access the specific web page.
+
+We can specific the url that we want to lead to the page that we want.
+
+"""
+
+
 from django.contrib import admin
 from django.urls import include, path
 

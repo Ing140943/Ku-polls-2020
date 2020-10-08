@@ -1,5 +1,6 @@
   
 {% load static %}
+<a  href="{% url 'polls:index'  %}">{{ "back to the homepage" }}</a>
 <h1>{{ question.question_text }}</h1>
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
     <p style="text-align:center;"></p>
@@ -21,3 +22,4 @@
 <br>
     <form action="{% url 'polls:index'  %}">
         <input type="submit" value="Back to List of Polls" />
+        
