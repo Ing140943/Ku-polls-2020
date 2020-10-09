@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/Ing140943/Ku-polls.svg?branch=master)](https://travis-ci.com/github/Ing140943/Ku-polls)
+[![codecov](https://codecov.io/gh/Ing140943/Ku-polls/branch/master/graph/badge.svg)](https://codecov.io/gh/Ing140943/Ku-polls)
 # ku-polls
 
 Web application for conducting online polls and surveys.
