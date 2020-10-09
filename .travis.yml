@@ -8,3 +8,5 @@ install:
 script: 
   - coverage run manage.py test polls
 
+after_script:
+  - bash <(curl -s https://codecov.io/bash)
