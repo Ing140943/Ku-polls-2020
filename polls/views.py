@@ -6,16 +6,42 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import user_logged_in, user_logged_out, user_login_failed
 from .models import Choice, Question, Vote
+from django.dispatch import receiver
 
+from .settings import LOGGING
+import logging.config
+
+logging.config.dictConfig(LOGGING)
+logger = logging.getLogger('polls')
 
 def get_client_ip(request):
+    """Get ip address from the user."""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+
+@receiver(user_logged_in)
+def throw_feedback_login(sender, request, user, **kwargs):
+    """Show some response when the user have log in."""
+    logger.info(f"Username: {user.username} User's IP: {get_client_ip(request)} is log in.")
+
+
+@receiver(user_logged_out)
+def throw_feedback_log_out(sender, request, user, **kwargs):
+    """Show some responses when the user have log out."""
+    logger.info(f"Username: {user.username} User's IP: {get_client_ip(request)} is log out.")
+
+
+@receiver(user_login_failed)
+def feedback_fail_login(sender, credentials, request, **kwargs):
+    """Show some responses when the user fail to log in."""
+    logger.warning(f"Username {request.POST['username']} User's IP: {get_client_ip(request)} when the user login failed.")
 
 class IndexView(generic.ListView):
     """The index page for showing infomation the questions."""
@@ -64,6 +90,7 @@ def vote(request, question_id):
             return HttpResponseRedirect(reverse('polls:index'), messages.warning(request, text))
         Vote.objects.update_or_create(user =request.user, question =question, defaults ={'choice': selected_choice})
         messages.success(request, "Already complete your polls.")
+        logger.info(f"Username: {request.user.username} User's IP: {get_client_ip(request)}  Question ID: {question.id} vote sucessful.")
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
