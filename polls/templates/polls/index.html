@@ -2,6 +2,12 @@
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 <h1 style="font-family:courier;" >Ku-Polls</h1>
 <br>
+{% if user.is_authenticated %}
+   Welcome back, {{ user.username }}
+   <a href="{% url 'logout' %}">logout</a>
+{% else %}
+   Please <a href="{% url 'login' %}">Login</a>
+{% endif %}
 
 <h2 style="font-family:courier;" >List of polls</h2>
 

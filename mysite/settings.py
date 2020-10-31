@@ -119,3 +119,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = 'main_index_page'
+LOGOUT_REDIRECT_URL = 'main_index_page'
