@@ -3,7 +3,7 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
-
+from django.contrib.auth.models import User
 
 class Question(models.Model):
     """Have to create question which have deadline."""
@@ -41,8 +41,20 @@ class Choice(models.Model):
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
-    votes = models.IntegerField(default=0)
+
+    @ property
+    def votes(self):
+        """:return sum of all vote in the particular question"""
+        return self.question.vote_set.filter(choice=self).count()
 
     def __str__(self):
         """Return choice in text form."""
         return self.choice_text
+
+
+class Vote(models.Model):
+    """For voting queations in ku polls."""
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)

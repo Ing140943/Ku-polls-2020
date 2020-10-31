@@ -5,9 +5,17 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .models import Choice, Question, Vote
 
-from .models import Choice, Question
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 class IndexView(generic.ListView):
     """The index page for showing infomation the questions."""
@@ -37,6 +45,8 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
+
+@login_required
 def vote(request, question_id):
     """Voting for each polls by select the choice."""
     question = get_object_or_404(Question, pk=question_id)
@@ -52,8 +62,7 @@ def vote(request, question_id):
         if not (question.can_vote()):
             text = "The poll that you selected is not allowed."
             return HttpResponseRedirect(reverse('polls:index'), messages.warning(request, text))
-        selected_choice.votes += 1
-        selected_choice.save()
+        Vote.objects.update_or_create(user =request.user, question =question, defaults ={'choice': selected_choice})
         messages.success(request, "Already complete your polls.")
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
