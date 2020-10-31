@@ -89,6 +89,9 @@ def vote(request, question_id):
             text = "The poll that you selected is not allowed."
             return HttpResponseRedirect(reverse('polls:index'), messages.warning(request, text))
         Vote.objects.update_or_create(user =request.user, question =question, defaults ={'choice': selected_choice})
+        for q in Question.objects.all():
+            q.recently_vote = request.user.vote_set.get(question=question).choice.choice_text
+            q.save()
         messages.success(request, "Already complete your polls.")
         logger.info(f"Username: {request.user.username} User's IP: {get_client_ip(request)}  Question ID: {question.id} vote sucessful.")
         # Always return an HttpResponseRedirect after successfully dealing

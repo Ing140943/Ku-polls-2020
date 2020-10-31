@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 <form action="{% url 'polls:vote' question.id %}" method="post">
 {% csrf_token %}
+<h3>Your latest vote is {{question.recently_vote}}</h3>
 {% for choice in question.choice_set.all %}
     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
     <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>

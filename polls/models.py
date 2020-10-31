@@ -9,6 +9,7 @@ class Question(models.Model):
     """Have to create question which have deadline."""
 
     question_text = models.CharField(max_length=200)
+    recently_vote = models.CharField(max_length=200, default ="You haven't do this polls")
     pub_date = models.DateTimeField('date published')
     end_date = models.DateTimeField('end dated')
 
