@@ -1,16 +1,10 @@
 """Test case for DetailView."""
 import datetime
-import os
-import itertools
 from django.contrib.auth.models import User
-from django.http import HttpRequest
 from django.urls import reverse
-from polls.models import Question, Choice
-from django.contrib.auth import get_user_model
+from polls.models import Question
 from django.test import TestCase
 from django.utils import timezone
-from django.conf import settings
-from importlib import import_module
 
 
 def create_question(question_text, days):
