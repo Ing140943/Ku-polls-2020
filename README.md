@@ -6,12 +6,12 @@ Web application for conducting online polls and surveys.
 
 [Home](https://github.com/Ing140943/ku-polls/wiki)
 
-[Requirements](https://github.com/Ing140943/ku-polls/wiki/Requirements)
+[Requirements](https://github.com/Ing140943/ku-trolls/wiki/Requirements)
 
-[Vision-Statement](https://github.com/Ing140943/ku-polls/wiki/Vision-Statement)
+[Vision-Statement](https://github.com/Ing140943/ku-trolls/wiki/Vision-Statement)
 
-[Iteration1-plan](https://github.com/Ing140943/Ku-polls/wiki/Iteration-1-Plan)
+[Iteration1-plan](https://github.com/Ing140943/Ku-trolls/wiki/Iteration-1-Plan)
 
-[Iteration2-plan](https://github.com/Ing140943/Ku-polls/wiki/Iteration-2-Plan)
+[Iteration2-plan](https://github.com/Ing140943/Ku-trolls/wiki/Iteration-2-Plan)
 
-[Iteration3-plan](https://github.com/Ing140943/Ku-polls/wiki/Iteration3-Plan)
+[Iteration3-plan](https://github.com/Ing140943/Ku-trolls/wiki/Iteration3-Plan)
